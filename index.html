@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Table Vue.JS</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <button @click="addItem">
+        добавить товар
+      </button>
+    </header>
+    <table>
+      <thead>
+        <tr class="header">
+          <th>#</th>
+          <th>Наименование</th>
+          <th>Количество</th>
+          <th>Цена</th>
+          <th>Удалить</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in items">
+          <td>{{ item.id }}</td>
+          <td>
+            <div class="center">
+              <div v-if="item.editName">
+                <input type="text" v-model="item.name" />
+                <button @click="editName(item.id)" :disabled="item.name.length === 0">
+                  сохранить
+                </button>
+              </div>
+              <div v-if="!item.editName" @click="editName(item.id)">
+                {{ item.name }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <span v-if="item.editCount">
+              <input type="number" v-model="item.count" />
+              <button @click="editCount(item.id)" :disabled="item.count.length === 0">сохранить</button>
+            </span>
+            <span v-if="!item.editCount" @click="editCount(item.id)">
+              {{ item.count }}
+            </span>
+          </td>
+          <td>
+            <span v-if="item.editPrice">
+              <input type="number" v-model="item.price" />
+              <button @click="editPrice(item.id)" :disabled="item.price.length === 0">
+                сохранить
+              </button>
+            </span>
+            <span v-if="!item.editPrice" @click="editPrice(item.id)">
+              {{ item.price }}
+            </span> руб.
+          </td>
+          <td>
+            <button class="danger" @click="deleteItem(item.id)">
+              удалить
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <strong>Итого:</strong>
+          </td>
+          <td>
+            <strong>{{ totalAmount }} рублей</strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.0/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        items: [],
+      },
+      computed: {
+        totalAmount() {
+          let total = 0;
+          this.items.map(item => (total += parseFloat(item.price) * parseInt(item.count)));
+          total = total.toFixed(2);
+          return isNaN(total) ? 0.00 : total;
+        },
+      },
+      methods: {
+        addItem() {
+          this.items.push({
+            id: this.items.length + 1,
+            name: '',
+            count: 0,
+            price: 0,
+            editName: true,
+            editCount: false,
+            editPrice: false,
+          });
+        },
+        deleteItem(id) {
+          this.items = this.items.filter(item => item.id !== id);
+        },
+        editName(id) {
+          this.items = this.items.map(item => {
+            if (item.id === id) {
+              return { ...item,
+                editName: !item.editName
+              };
+            } else {
+              return item;
+            }
+          });
+        },
+        editCount(id) {
+          this.items = this.items.map(item => {
+            if (item.id === id) {
+              return { ...item,
+                editCount: !item.editCount
+              };
+            } else {
+              return item;
+            }
+          });
+        },
+        editPrice(id) {
+          this.items = this.items.map(item => {
+            if (item.id === id) {
+              return { ...item,
+                editPrice: !item.editPrice
+              };
+            } else {
+              return item;
+            }
+          });
+        },
+      },
+    });
+  </script>
+</body>
+</html>
