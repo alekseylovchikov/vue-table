@@ -30,6 +30,10 @@ strong {
   font-weight: 400;
 }
 
+tr:last-child td:first-child {
+  text-align: right;
+}
+
 tr th {
   text-align: left;
   font-weight: 400;

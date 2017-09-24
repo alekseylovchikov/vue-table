@@ -95,8 +95,12 @@
       },
       methods: {
         addItem() {
+          let lastItem;
+          if (this.items.length > 0) {
+            lastItem = this.items[this.items.length - 1];
+          }
           this.items.push({
-            id: this.items.length + 1,
+            id: lastItem ? lastItem.id + 1 : this.items.length + 1,
             name: '',
             count: 0,
             price: 0,
