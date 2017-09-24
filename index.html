@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <header>
       <button @click="addItem">
         добавить товар
@@ -78,7 +78,7 @@
       </tbody>
     </table>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.0/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.4.4/dist/vue.min.js"></script>
   <script>
     new Vue({
       el: '#app',
