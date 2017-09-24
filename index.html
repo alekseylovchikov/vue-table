@@ -87,6 +87,7 @@
       },
       computed: {
         totalAmount() {
+          // считаем общую сумму
           let total = 0;
           this.items.map(item => (total += parseFloat(item.price) * parseInt(item.count)));
           total = total.toFixed(2);
@@ -96,9 +97,13 @@
       methods: {
         addItem() {
           let lastItem;
+          // если есть хотя бы одна запись
+          // то id для следующей записи делаем на основое
+          // прерыдущего id
           if (this.items.length > 0) {
             lastItem = this.items[this.items.length - 1];
           }
+          // добавляем пустую запись в массив
           this.items.push({
             id: lastItem ? lastItem.id + 1 : this.items.length + 1,
             name: '',
@@ -110,9 +115,11 @@
           });
         },
         deleteItem(id) {
+          // ищем запись с конкретным id и исключаем его из списка массива
           this.items = this.items.filter(item => item.id !== id);
         },
         editName(id) {
+          // находим запись по id и если нашли, то меняем значение editName
           this.items = this.items.map(item => {
             if (item.id === id) {
               return { ...item,
@@ -124,6 +131,7 @@
           });
         },
         editCount(id) {
+          // находим запись по id и если нашли, то меняем значение editCount
           this.items = this.items.map(item => {
             if (item.id === id) {
               return { ...item,
@@ -135,6 +143,7 @@
           });
         },
         editPrice(id) {
+          // находим запись по id и если нашли, то меняем значение editPrice
           this.items = this.items.map(item => {
             if (item.id === id) {
               return { ...item,
